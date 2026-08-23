@@ -42,7 +42,10 @@ test("exports the complete LWD research page", async () => {
     assert.match(html, new RegExp(`media/tasks/${index}\\.mp4`));
     assert.match(html, new RegExp(`media/tasks/posters/${index}\\.jpg`));
   }
-  assert.doesNotMatch(html, /finch\.agibot\.com|AGIBOT Finch|Join us|research@agibot\.com|G-GE3BF609W8/i);
+  assert.match(html, /googletagmanager\.com\/gtag\/js\?id=G-3PS94B2MSR/);
+  assert.match(html, /gtag\('config', 'G-3PS94B2MSR'\)/);
+  assert.doesNotMatch(html, /G-GE3BF609W8/);
+  assert.doesNotMatch(html, /finch\.agibot\.com|AGIBOT Finch|Join us|research@agibot\.com/i);
   assert.doesNotMatch(html, /codex-preview|starter project|your site is taking shape/i);
 });
 
