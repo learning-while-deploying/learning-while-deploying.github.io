@@ -62,6 +62,7 @@ test("exports the complete LWD research page", async () => {
   assert.match(html, /class="blog-project-label"/);
   assert.match(html, /class="blog-footer-inner"/);
   assert.match(html, /class="blog-back-to-top"/);
+  assert.doesNotMatch(html, /Research project/);
   assert.match(html, /googletagmanager\.com\/gtag\/js\?id=G-3PS94B2MSR/);
   assert.match(html, /gtag\('config', 'G-3PS94B2MSR'\)/);
   assert.doesNotMatch(html, /G-GE3BF609W8/);

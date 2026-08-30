@@ -19,7 +19,6 @@ export default function Home() {
         <header className="blog-header">
           <div className="blog-header-topline">
             <div className="blog-project-identity">
-              <span className="blog-header-kicker">Research project</span>
               <span className="blog-project-label">LWD</span>
             </div>
             <time className="blog-date" dateTime="2026-04-30">{siteConfig.date}</time>
@@ -135,7 +134,6 @@ export default function Home() {
       <footer className="blog-footer">
         <div className="blog-footer-inner">
           <div className="blog-footer-copy">
-            <span className="blog-footer-kicker">Research project</span>
             <strong>LWD</strong>
             <p>{siteConfig.title}</p>
           </div>
