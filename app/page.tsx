@@ -15,18 +15,16 @@ const taskVideos = [
 export default function Home() {
   return (
     <main className="blog-view" id="top">
-      <nav className="blog-nav" aria-label="Research navigation">
-        <a className="blog-wordmark" href="#top">LWD</a>
-        <div><a href="#research">Research</a></div>
-      </nav>
-
       <article className="blog-article" id="research">
         <header className="blog-header">
-          <div className="blog-breadcrumb" aria-label="Breadcrumb">
-            <span>Research</span><i aria-hidden="true" /><span>LWD</span>
+          <div className="blog-header-topline">
+            <div className="blog-project-identity">
+              <span className="blog-header-kicker">Research project</span>
+              <span className="blog-project-label">LWD</span>
+            </div>
+            <time className="blog-date" dateTime="2026-04-30">{siteConfig.date}</time>
           </div>
           <h1>{siteConfig.title}</h1>
-          <p className="blog-date">{siteConfig.date}</p>
           <div className="blog-actions">
             <a className="blog-action-primary" href={siteConfig.paper} target="_blank" rel="noreferrer">Read Paper</a>
           </div>
@@ -135,8 +133,16 @@ export default function Home() {
       </article>
 
       <footer className="blog-footer">
-        <strong>LWD</strong>
-        <a href="#top">Back to top ↑</a>
+        <div className="blog-footer-inner">
+          <div className="blog-footer-copy">
+            <span className="blog-footer-kicker">Research project</span>
+            <strong>LWD</strong>
+            <p>{siteConfig.title}</p>
+          </div>
+          <a className="blog-back-to-top" href="#top">
+            <span>Back to top</span><span aria-hidden="true">↑</span>
+          </a>
+        </div>
       </footer>
     </main>
   );

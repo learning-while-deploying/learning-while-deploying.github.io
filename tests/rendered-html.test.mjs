@@ -4,6 +4,21 @@ import test from "node:test";
 
 const output = new URL("../out/", import.meta.url);
 
+async function readMp4Duration(url) {
+  const video = await readFile(url);
+  const marker = video.indexOf(Buffer.from("mvhd"));
+  assert.ok(marker >= 0, `mvhd box missing from ${url.pathname}`);
+  const version = video[marker + 4];
+  if (version === 1) {
+    const timescale = video.readUInt32BE(marker + 24);
+    const duration = Number(video.readBigUInt64BE(marker + 28));
+    return duration / timescale;
+  }
+  const timescale = video.readUInt32BE(marker + 16);
+  const duration = video.readUInt32BE(marker + 20);
+  return duration / timescale;
+}
+
 test("exports the complete LWD research page", async () => {
   const html = await readFile(new URL("index.html", output), "utf8");
   const required = [
@@ -42,6 +57,11 @@ test("exports the complete LWD research page", async () => {
     assert.match(html, new RegExp(`media/tasks/${index}\\.mp4`));
     assert.match(html, new RegExp(`media/tasks/posters/${index}\\.jpg`));
   }
+  assert.doesNotMatch(html, /class="blog-nav"|class="blog-breadcrumb"/);
+  assert.match(html, /class="blog-header-topline"/);
+  assert.match(html, /class="blog-project-label"/);
+  assert.match(html, /class="blog-footer-inner"/);
+  assert.match(html, /class="blog-back-to-top"/);
   assert.match(html, /googletagmanager\.com\/gtag\/js\?id=G-3PS94B2MSR/);
   assert.match(html, /gtag\('config', 'G-3PS94B2MSR'\)/);
   assert.doesNotMatch(html, /G-GE3BF609W8/);
@@ -85,6 +105,8 @@ test("publishes local paper, imagery, fonts, and fast-start videos", async () =>
     const header = buffer.subarray(0, bytesRead).toString("latin1");
     assert.ok(header.indexOf("moov") >= 0 && header.indexOf("moov") < header.indexOf("mdat"), `${name} is not fast-start`);
   }
+  const trimmedDuration = await readMp4Duration(new URL("teaser.mp4", media));
+  assert.ok(trimmedDuration >= 247.2 && trimmedDuration <= 247.4, `unexpected teaser.mp4 duration: ${trimmedDuration}`);
 
   const paper = await readFile(new URL("lwd.pdf", output));
   assert.equal(paper.subarray(0, 4).toString(), "%PDF");
